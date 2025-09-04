@@ -236,6 +236,8 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env
 load_dotenv()
+import os, sys
+print(">>> DATABASE_URL:", os.environ.get("DATABASE_URL"), file=sys.stderr)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -374,3 +376,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+import sys
+import os
+print(">>> DATABASE_URL:", os.environ.get("DATABASE_URL"), file=sys.stderr)
+print(">>> Django DATABASES:", DATABASES, file=sys.stderr)
+
