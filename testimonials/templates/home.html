@@ -1,0 +1,88 @@
+{% comment %} <h1>Welcome to the Gratuity Portal</h1>
+
+<div style="max-width: 450px; margin: 0 auto; padding: 20px; text-align: center;">
+
+  {% if user.is_authenticated %}
+  <!-- User is already authenticated -->
+  <div style="padding: 30px; border: 2px solid #28a745; border-radius: 10px; background-color: #f0fff0;">
+    <h2 style="color: #28a745; margin-bottom: 20px;">✅ Successfully Authenticated</h2>
+    <p style="font-size: 1.1em; margin-bottom: 25px; color: #333;">
+      Welcome, {{ user.first_name|default:user.username }}! You are logged in with Microsoft.
+    </p>
+
+    <a href="/professors/"
+      style="display: inline-block; background-color: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 10px;">
+      📚 View Professors
+    </a>
+
+    <a href="/logout/"
+      style="display: inline-block; background-color: #dc3545; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      🚪 Logout
+    </a>
+  </div>
+  {% else %}
+  <!-- Microsoft Authentication - Only login method -->
+  <div style="padding: 30px; border: 2px solid #0078d4; border-radius: 10px; background-color: #f0f8ff;">
+    <h2 style="color: #0078d4; margin-bottom: 20px;">🔐 Microsoft Authentication Required</h2>
+    <p style="font-size: 1.1em; margin-bottom: 25px; color: #333;">
+      Please log in with your Microsoft account to access the Gratuity Portal.
+    </p>
+
+    <a href="{% url 'social:begin' 'azuread-oauth2-pkce' %}"
+      style="display: inline-block; background-color: #0078d4; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      🚀 Login with Microsoft
+    </a>
+
+    <p style="font-size: 0.9em; color: #666; margin-top: 20px; margin-bottom: 0;">
+      After authentication, you will be redirected to the professors page.
+    </p>
+  </div>
+  {% endif %}
+
+</div> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+    <link href="{% static 'img/sail_logo.png' %}" rel="shortcut icon" type="image/png">
+    <title>Login | SAIL Year Book Portal</title>
+
+  
+</head>
+
+<body>
+    <div class="landingpage">
+        <img src="{% static 'img/sail_logo.svg' %}" alt="SAIL Logo" class="saillogo-img" />
+        <div class="landing-intro">
+            <h1 class="landing-heading">GRATITUDE PORTAL</h1>
+            <hr class="landing-border" />
+            <h4>#ON THE OCCASION OF TEACHER'S DAY</h4>
+
+            {% if user.is_authenticated %}
+            <!-- Already logged in -->
+            <div class="success-box">
+                <h2> Successfully Authenticated</h2>
+                <p>Welcome, {{ user.first_name|default:user.username }}! You are logged in with Microsoft.</p>
+                <div class="success-actions">
+                    <a href="/professors/" class="btn">click here to proceed</a>
+
+                    {% comment %} <a href="/logout/" class="btn-red"> Logout</a> {% endcomment %}
+                </div>
+            </div>
+            {% else %}
+            <!-- Login button -->
+            <a class="btn"
+                href="{% url 'social:begin' 'azuread-oauth2-pkce' %}?next={{ next|default:'/' }}">
+                 Login with Microsoft
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
