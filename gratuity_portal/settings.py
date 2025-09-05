@@ -239,6 +239,11 @@ load_dotenv()
 import os, sys
 print(">>> DATABASE_URL:", os.environ.get("DATABASE_URL"), file=sys.stderr)
 
+
+#admin
+import os
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
@@ -296,12 +301,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gratuity_portal.wsgi.application'
 
 # Database
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default=os.getenv("DATABASE_URL"),
+#         conn_max_age=600,
+#         ssl_require=True
+#     )
+# }
+
 DATABASES = {
-    "default": dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    "default": dj_database_url.parse(
+        os.getenv("DATABASE_URL")    )
 }
 
 # Password validation
@@ -383,3 +393,8 @@ import os
 print(">>> DATABASE_URL:", os.environ.get("DATABASE_URL"), file=sys.stderr)
 print(">>> Django DATABASES:", DATABASES, file=sys.stderr)
 
+
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+from django.contrib.auth.models import User
+User.objects.create_superuser('sail', 'sail@iitg.ac.in', ADMIN_PASSWORD)
