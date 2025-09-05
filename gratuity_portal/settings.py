@@ -394,7 +394,4 @@ print(">>> DATABASE_URL:", os.environ.get("DATABASE_URL"), file=sys.stderr)
 print(">>> Django DATABASES:", DATABASES, file=sys.stderr)
 
 
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
-from django.contrib.auth.models import User
-User.objects.create_superuser('sail', 'sail@iitg.ac.in', ADMIN_PASSWORD)
